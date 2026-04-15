@@ -1,0 +1,11 @@
+{
+  "block.lockkey.locker_big": "Big Locker",
+  "block.lockkey.locker_small": "Small Locker",
+  "info.lockkey.locked.attack": "This is Locked!",
+  "info.lockkey.locked.interact": "This is Locked!",
+  "item.lockkey.key": "Key",
+  "item.lockkey.lock": "Lock",
+  "item.lockkey.locker_big": "Big Locker",
+  "item.lockkey.locker_small": "Small Locker",
+  "lockkey.lockkey": "Lock and Key"
+}
