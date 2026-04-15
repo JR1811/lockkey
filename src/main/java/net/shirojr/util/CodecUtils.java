@@ -1,18 +1,14 @@
 package net.shirojr.util;
 
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import net.minecraft.core.BlockPos;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class CodecUtils {
     /**
      * Needed for {@link Codec#unboundedMap(Codec, Codec) Codec.unboundedMap} since it requires String keys
      *
+     * @see <a href="https://github.com/Fusion-Flux/Portal-Cubed-Rewrite/blob/b3f58665d144c16e8997f69d0c250cb27e5aedcc/src/main/java/io/github/fusionflux/portalcubed/framework/util/PortalCubedCodecs.java#L31-L44">Original</a>
      */
     public static final Codec<BlockPos> BLOCKPOS_STRING_CODEC = Codec.STRING.comapFlatMap(
             string -> {
@@ -30,13 +26,6 @@ public class CodecUtils {
             },
             pos -> pos.getX() + "," + pos.getY() + "," + pos.getZ()
     );
-
-    public static <K, V> Codec<HashMap<K, V>> hashMapCodec(Codec<K> keyCodec, Codec<V> valueCodec) {
-        return Codec.pair(keyCodec, valueCodec).listOf().xmap(
-                list -> list.stream().collect(Collectors.toMap(Pair::getFirst, Pair::getSecond, (a, b) -> a, HashMap::new)),
-                map -> new ArrayList<>(map.entrySet().stream().map(e -> Pair.of(e.getKey(), e.getValue())).toList())
-        );
-    }
 
 
     // --------------------------------------------- internal ---------------------------------------------
