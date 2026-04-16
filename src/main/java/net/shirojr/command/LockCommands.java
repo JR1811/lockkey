@@ -36,8 +36,9 @@ public class LockCommands implements CommandRegistrationCallback {
                 .then(Commands.literal("block")
                         .then(Commands.argument("target", BlockPosArgument.blockPos())
                                 .then(Commands.literal("set")
+                                        .executes(context -> LockCommands.setBlockLock(context, UUID.randomUUID()))
                                         .then(Commands.argument("grooves", UuidArgument.uuid())
-                                                .executes(LockCommands::setBlockLock)
+                                                .executes(context -> LockCommands.setBlockLock(context, UuidArgument.getUuid(context, "grooves")))
                                         )
                                 )
                                 .then(Commands.literal("remove")
@@ -48,8 +49,9 @@ public class LockCommands implements CommandRegistrationCallback {
                 .then(Commands.literal("entity")
                         .then(Commands.argument("target", EntityArgument.entity())
                                 .then(Commands.literal("set")
+                                        .executes(context -> LockCommands.setEntityLock(context, UUID.randomUUID()))
                                         .then(Commands.argument("grooves", UuidArgument.uuid())
-                                                .executes(LockCommands::setEntityLock)
+                                                .executes(context -> LockCommands.setEntityLock(context, UuidArgument.getUuid(context, "grooves")))
                                         )
                                 )
                                 .then(Commands.literal("remove")
@@ -74,9 +76,8 @@ public class LockCommands implements CommandRegistrationCallback {
         return Command.SINGLE_SUCCESS;
     }
 
-    private static int setBlockLock(CommandContext<CommandSourceStack> context) {
+    private static int setBlockLock(CommandContext<CommandSourceStack> context, UUID grooves) {
         BlockPos pos = BlockPosArgument.getBlockPos(context, "target");
-        UUID grooves = UuidArgument.getUuid(context, "grooves");
         ServerLevel level = context.getSource().getLevel();
         LockedDataAttachment.setBlockLock(level, Set.of(pos), new LockedDataAttachment(grooves, Optional.empty()));
         context.getSource().sendSuccess(() -> Component.literal("Applied Lock to ").append(pos.toShortString()), true);
@@ -97,9 +98,8 @@ public class LockCommands implements CommandRegistrationCallback {
         return Command.SINGLE_SUCCESS;
     }
 
-    private static int setEntityLock(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    private static int setEntityLock(CommandContext<CommandSourceStack> context, UUID grooves) throws CommandSyntaxException {
         Entity entity = EntityArgument.getEntity(context, "target");
-        UUID grooves = UuidArgument.getUuid(context, "grooves");
         LockedDataAttachment.setEntityLock(entity, new LockedDataAttachment(grooves, Optional.empty()));
         context.getSource().sendSuccess(() -> Component.literal("Applied Lock to ").append(entity.getName()), true);
         return Command.SINGLE_SUCCESS;
