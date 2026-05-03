@@ -3,7 +3,7 @@
 	"id": "lockkey",
 	"version": "${version}",
 	"name": "Lock And Key",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A Fabric Mod which adds Locking mechanics to Blocks, Entities and other things",
 	"authors": [
 		"DEV - ShiroJR",
 		"ART - ShiroJR"

@@ -14,13 +14,15 @@ public class LAKMain implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LAKItemDataComponents.initialize();
-		LAKKeyItems.initialize();
+		LAKItems.initialize();
 		LAKBlocks.initialize();
 		LAKBlockEntityTypes.initialize();
 		LAKBlockStateProperties.initialize();
 		LAKCreativeTabs.initialize();
+		LAKEntityTypes.initialize();
 		LAKDataAttachments.initialize();
 		LAKCommonEvents.initialize();
+		LAKTags.initialize();
 
 		LOGGER.info("We lock in!");
 	}

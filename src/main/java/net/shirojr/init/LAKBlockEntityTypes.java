@@ -7,13 +7,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.shirojr.LAKMain;
-import net.shirojr.blockentity.LockerBlockEntity;
+import net.shirojr.blockentity.StorageLockerBlockEntity;
 
 public interface LAKBlockEntityTypes {
-    BlockEntityType<LockerBlockEntity> LOCKER = register(
+    BlockEntityType<StorageLockerBlockEntity> LOCKER = register(
             "locker",
-            LockerBlockEntity::new,
-            LAKBlocks.LOCKER_SMALL, LAKBlocks.LOCKER_BIG
+            StorageLockerBlockEntity::new,
+            LAKBlocks.LOCKER_EMPTY.entry(), LAKBlocks.LOCKER_STORAGE.entry(), LAKBlocks.LOCKER_TRAP.entry(), LAKBlocks.LOCKER_ALARM.entry()
     );
 
 

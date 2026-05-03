@@ -15,12 +15,14 @@ import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.permissions.Permissions;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.shirojr.data.attachment.LockedDataAttachment;
+import net.shirojr.item.component.GroovesComponent;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -28,11 +30,12 @@ import java.util.Set;
 import java.util.UUID;
 
 public class LockCommands implements CommandRegistrationCallback {
-    public static final SimpleCommandExceptionType ERROR_NO_LOCK = new SimpleCommandExceptionType(Component.literal("No Lock Found"));
+    public static final SimpleCommandExceptionType ERROR_NO_LOCK = new SimpleCommandExceptionType(Component.literal("No lock found"));
+    public static final SimpleCommandExceptionType ERROR_NOT_APPLICABLE = new SimpleCommandExceptionType(Component.literal("Data not applicable"));
 
     @Override
     public void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ctx, Commands.CommandSelection commandSelection) {
-        dispatcher.register(Commands.literal("lock").requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_MODERATOR))
+        dispatcher.register(Commands.literal("lock").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("block")
                         .then(Commands.argument("target", BlockPosArgument.blockPos())
                                 .then(Commands.literal("set")
@@ -59,7 +62,27 @@ public class LockCommands implements CommandRegistrationCallback {
                                 )
                         )
                 )
+                .then(Commands.literal("grooves")
+                        .then(Commands.literal("set")
+                                .then(Commands.argument("uuid", UuidArgument.uuid())
+                                        .executes(context -> LockCommands.setItemGrooves(context, UuidArgument.getUuid(context, "uuid"), null))
+                                        .then(Commands.argument("target", EntityArgument.player())
+                                                .executes(context -> LockCommands.setItemGrooves(context, UuidArgument.getUuid(context, "uuid"), EntityArgument.getPlayer(context, "target")))
+                                        )
+                                )
+                        )
+                )
         );
+    }
+
+    private static int setItemGrooves(CommandContext<CommandSourceStack> context, UUID uuid, @Nullable Entity target) throws CommandSyntaxException {
+        if (target == null) target = context.getSource().getPlayer();
+        if (!(target instanceof LivingEntity livingEntity)) {
+            throw ERROR_NOT_APPLICABLE.create();
+        }
+        GroovesComponent.setGrooves(livingEntity.getActiveItem(), uuid);
+        context.getSource().sendSuccess(() -> Component.literal("Applied main hand ItemStack groove: " + uuid), true);
+        return Command.SINGLE_SUCCESS;
     }
 
     private static int removeBlockLock(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {

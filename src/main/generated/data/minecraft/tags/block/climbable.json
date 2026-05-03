@@ -1,0 +1,8 @@
+{
+  "values": [
+    "lockkey:locker_empty",
+    "lockkey:locker_storage",
+    "lockkey:locker_trap",
+    "lockkey:locker_alarm"
+  ]
+}

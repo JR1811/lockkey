@@ -6,7 +6,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.shirojr.LAKMain;
 import net.shirojr.init.LAKBlocks;
-import net.shirojr.init.LAKKeyItems;
+import net.shirojr.init.LAKEntityTypes;
+import net.shirojr.init.LAKItems;
+import net.shirojr.init.LAKTags;
+import net.shirojr.item.component.GroovesComponent;
 import net.shirojr.util.constants.MiscTranslationKeys;
 
 import java.nio.file.Path;
@@ -24,11 +27,14 @@ public class LAKTranslationGenerator extends FabricLanguageProvider {
     @Override
     public void generateTranslations(HolderLookup.Provider provider, TranslationBuilder builder) {
         builder.add(MiscTranslationKeys.ITEM_GROUP_KEY, "Lock and Key");
-        LAKKeyItems.ALL_ITEMS.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), true)));
-        LAKBlocks.ALL_BLOCKS.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), true)));
+        LAKItems.ALL.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), true)));
+        LAKBlocks.ALL.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), true)));
+        LAKEntityTypes.ALL.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), true)));
+        LAKTags.ALL.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), false)));
 
         builder.add(MiscTranslationKeys.ATTACK_LOCKED_KEY, "This is Locked!");
         builder.add(MiscTranslationKeys.INTERACT_LOCKED_KEY, "This is Locked!");
+        builder.add(GroovesComponent.TOOLTIP_TRANSLATION_KEY, "Grooves: ");
 
         try {
             Path existingFilePath = packOutput.getModContainer().findPath("assets/%s/lang/en_us.manual.json".formatted(LAKMain.MOD_ID)).orElseThrow();

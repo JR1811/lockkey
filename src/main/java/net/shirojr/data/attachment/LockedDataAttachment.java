@@ -56,19 +56,19 @@ public record LockedDataAttachment(UUID grooves, @NotNull Optional<ItemStack> lo
         );
     }
 
-    public static boolean isLocked(Level level, BlockPos pos, @Nullable UUID allowedGrooves) {
+    public static boolean isLocked(Level level, BlockPos pos, @Nullable UUID matchingGrooves) {
         HashMap<BlockPos, LockedDataAttachment> positions = get(level.getChunk(pos));
         if (positions == null || positions.isEmpty()) return false;
         LockedDataAttachment attachment = positions.get(pos);
-        if (allowedGrooves == null) return attachment != null;
-        return !attachment.grooves().equals(allowedGrooves);
+        if (matchingGrooves == null) return attachment != null;
+        return attachment != null && !attachment.grooves().equals(matchingGrooves);
     }
 
-    public static boolean isLocked(Entity entity, @Nullable UUID allowedGrooves) {
+    public static boolean isLocked(Entity entity, @Nullable UUID matchingGrooves) {
         LockedDataAttachment attached = get(entity);
         if (attached == null) return false;
-        if (allowedGrooves == null) return true;
-        return !attached.grooves().equals(allowedGrooves);
+        if (matchingGrooves == null) return true;
+        return !attached.grooves().equals(matchingGrooves);
     }
 
     public static HashSet<ItemStack> setBlockLockWithItem(Level level, Collection<BlockPos> positions, @NotNull ItemStack lockStack) {

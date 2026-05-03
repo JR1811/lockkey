@@ -18,9 +18,9 @@ import org.jspecify.annotations.Nullable;
 public class LAKEntityEvents implements UseEntityCallback {
     @Override
     public InteractionResult interact(Player player, Level level, InteractionHand hand, Entity entity, @Nullable EntityHitResult hitResult) {
-        if (player.isSpectator()) return InteractionResult.PASS;
+        if (player.isSpectator() || player.isCreative() || hand.equals(InteractionHand.OFF_HAND)) return InteractionResult.PASS;
         ItemStack stack = player.getItemInHand(hand);
-        GroovesComponent itemComponent = stack.get(LAKItemDataComponents.GROOVES);
+        GroovesComponent itemComponent = !hand.equals(InteractionHand.MAIN_HAND) ? null : stack.get(LAKItemDataComponents.GROOVES);
         if (LockedDataAttachment.isLocked(entity, itemComponent == null ? null : itemComponent.grooves())) {
             player.sendOverlayMessage(Component.translatable(MiscTranslationKeys.INTERACT_LOCKED_KEY));
             return InteractionResult.FAIL;

@@ -9,7 +9,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.shirojr.LAKMain;
-import net.shirojr.block.LockerBlock;
+import net.shirojr.block.*;
 import net.shirojr.util.IdentifierHolder;
 
 import java.util.ArrayList;
@@ -17,15 +17,20 @@ import java.util.List;
 import java.util.function.Function;
 
 public interface LAKBlocks {
-    List<IdentifierHolder<Block>> ALL_BLOCKS = new ArrayList<>();
+    List<IdentifierHolder<? extends Block>> ALL = new ArrayList<>();
+    List<IdentifierHolder<? extends LockerBlock>> LOCKERS = new ArrayList<>();
 
-    LockerBlock LOCKER_SMALL = register("locker_small", LockerBlock::new,
+    IdentifierHolder<EmptyLockerBlock> LOCKER_EMPTY = registerLocker("locker_empty", EmptyLockerBlock::new,
             BlockBehaviour.Properties.of().requiresCorrectToolForDrops(), true);
-    LockerBlock LOCKER_BIG = register("locker_big", LockerBlock::new,
+    IdentifierHolder<StorageLockerBlock> LOCKER_STORAGE = registerLocker("locker_storage", StorageLockerBlock::new,
+            BlockBehaviour.Properties.of().requiresCorrectToolForDrops(), true);
+    IdentifierHolder<TrappedLockerBlock> LOCKER_TRAP = registerLocker("locker_trap", TrappedLockerBlock::new,
+            BlockBehaviour.Properties.of().requiresCorrectToolForDrops(), true);
+    IdentifierHolder<AlarmLockerBlock> LOCKER_ALARM = registerLocker("locker_alarm", AlarmLockerBlock::new,
             BlockBehaviour.Properties.of().requiresCorrectToolForDrops(), true);
 
     @SuppressWarnings("SameParameterValue")
-    private static <T extends Block> T register(String name, Function<BlockBehaviour.Properties, T> blockFactory,
+    private static <T extends Block> IdentifierHolder<T> register(String name, Function<BlockBehaviour.Properties, T> blockFactory,
                                                 BlockBehaviour.Properties settings, boolean registerDefaultItem) {
         Identifier id = LAKMain.getId(name);
         T registeredEntry = Registry.register(
@@ -33,10 +38,18 @@ public interface LAKBlocks {
                 id,
                 blockFactory.apply(settings.setId(ResourceKey.create(Registries.BLOCK, id)))
         );
-        ALL_BLOCKS.add(new IdentifierHolder<>(registeredEntry, id));
+        IdentifierHolder<T> holder = new IdentifierHolder<T>(registeredEntry, id);
+        ALL.add(holder);
         if (registerDefaultItem) {
-            LAKKeyItems.register(id, properties -> new BlockItem(registeredEntry, properties), LAKKeyItems.properties());
+            LAKItems.register(id, properties -> new BlockItem(registeredEntry, properties), LAKItems.properties());
         }
+        return holder;
+    }
+
+    private static <T extends LockerBlock> IdentifierHolder<T> registerLocker(String name, Function<BlockBehaviour.Properties, T> blockFactory,
+                                                                  BlockBehaviour.Properties settings, boolean registerDefaultItem) {
+        IdentifierHolder<T> registeredEntry = register(name, blockFactory, settings, registerDefaultItem);
+        LOCKERS.add(registeredEntry);
         return registeredEntry;
     }
 

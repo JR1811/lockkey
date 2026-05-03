@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
-public interface LAKKeyItems {
-    List<IdentifierHolder<Item>> ALL_ITEMS = new ArrayList<>();
+public interface LAKItems {
+    List<IdentifierHolder<Item>> ALL = new ArrayList<>();
 
     KeyItem KEY = register("key", KeyItem::new, properties().stacksTo(4));
     LockItem LOCK = register("lock", LockItem::new, properties());
@@ -28,7 +28,7 @@ public interface LAKKeyItems {
 
     static <T extends Item> T register(Identifier id, Function<Item.Properties, T> factory, Item.Properties properties) {
         T registeredEntry = Registry.register(BuiltInRegistries.ITEM, id, factory.apply(properties.setId(ResourceKey.create(Registries.ITEM, id))));
-        ALL_ITEMS.add(new IdentifierHolder<>(registeredEntry, id));
+        ALL.add(new IdentifierHolder<>(registeredEntry, id));
         return registeredEntry;
     }
 

@@ -14,8 +14,8 @@ import net.shirojr.util.IdentifierHolder;
 public interface LAKCreativeTabs {
     IdentifierHolder<CreativeModeTab> TAB = registerCreativeModeTab("lockkey", FabricCreativeModeTab.builder()
             .title(Component.translatable("itemGroup." + LAKMain.MOD_ID))
-            .icon(LAKKeyItems.KEY::getDefaultInstance)
-            .displayItems((_, output) -> LAKKeyItems.ALL_ITEMS.forEach(itemIdentifierHolder ->
+            .icon(LAKItems.KEY::getDefaultInstance)
+            .displayItems((_, output) -> LAKItems.ALL.forEach(itemIdentifierHolder ->
                     output.accept(itemIdentifierHolder.entry())))
             .build());
 
@@ -29,7 +29,7 @@ public interface LAKCreativeTabs {
     static void initialize() {
         // static initialisation
         CreativeModeTabEvents.modifyOutputEvent(TAB.getResourceKey(Registries.CREATIVE_MODE_TAB)).register(output -> {
-            LAKKeyItems.ALL_ITEMS.forEach(itemHolder -> output.accept(itemHolder.entry()));
+            LAKItems.ALL.forEach(itemHolder -> output.accept(itemHolder.entry()));
         });
     }
 }
