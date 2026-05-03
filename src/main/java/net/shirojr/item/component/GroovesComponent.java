@@ -7,7 +7,6 @@ import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
@@ -46,9 +45,16 @@ public record GroovesComponent(UUID grooves) implements TooltipProvider, Tooltip
 
     @Override
     public void addToTooltip(Item.TooltipContext context, Consumer<Component> consumer, TooltipFlag flag, DataComponentGetter components) {
-        MutableComponent description = Component.translatable(TOOLTIP_TRANSLATION_KEY).withStyle(ChatFormatting.GREEN);
-        description.append(Component.literal(grooves().toString()));
-        consumer.accept(description);
+        String grooves = grooves().toString();
+
+        consumer.accept(Component.translatable(TOOLTIP_TRANSLATION_KEY).withStyle(ChatFormatting.WHITE));
+        if (!flag.isAdvanced()) {
+            consumer.accept(Component.literal(grooves.substring(0, 17) + "…").withStyle(ChatFormatting.GRAY));
+        } else {
+            for (String segment : grooves.split("-")) {
+                consumer.accept(Component.literal(" " + segment).withStyle(ChatFormatting.GRAY));
+            }
+        }
     }
 
     public static Optional<GroovesComponent> from(@Nullable ItemStack stack) {
