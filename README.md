@@ -7,7 +7,7 @@ Lock and Key is a Fabric mod that adds simple security mechanics for blocks and 
 - Lock and key system with items to control access to blocks and entities
 - Locker blocks with multiple variants:
     - Empty – allows players to enter
-    - Storage – stores items outside the hotbar
+    - Storage – stores items like shelf but items which are not in the hotbar
     - Alarm – plays a sound when opened
     - Trap – releases potions when opened
 
