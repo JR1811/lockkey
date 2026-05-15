@@ -1,5 +1,6 @@
 {
-  "info.lockkey.error.not_lockable": "Block not Lockable",
+  "info.lockkey.error.not_lockable": "Target not Lockable",
+  "info.lockkey.grooves_missing": "No Grooves set for locking",
   "info.lockkey.locked.attack": "This is Locked!",
   "info.lockkey.locked.interact": "This is Locked!",
   "item.lockkey.key": "Key",
@@ -7,5 +8,9 @@
   "itemGroup.lockkey": "Lock and Key",
   "lockkey.all_blocks_lockable": "All Blocks Lockable",
   "tag.block.lockkey.lockable": "Lockable",
+  "tag.entity_type.lockkey.lockable": "Lockable",
+  "tooltip.%s.key.line1": "§f[Sneak]§r §7+§r §f[Interact]§r §7with matching grooves on§r",
+  "tooltip.%s.key.line2": "§7locked blocks and entities to remove lock§r",
+  "tooltip.%s.lock.line1": "§f[Sneak]§r §7+§r §f[Interact]§r §7on blocks and entities to add lock§r",
   "tooltip.lockkey.grooves": "Grooves: "
 }

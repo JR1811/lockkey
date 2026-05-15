@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,6 +19,7 @@ import net.shirojr.init.LAKTags;
 import net.shirojr.network.NBVNetworkingDataHolder;
 import net.shirojr.util.constants.MiscTranslationKeys;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -50,6 +52,9 @@ public class LockItem extends Item {
             itemInHand.consume(1, context.getPlayer());
             return InteractionResult.SUCCESS;
         } else {
+            if (context.getPlayer() instanceof ServerPlayer serverPlayer) {
+                serverPlayer.sendOverlayMessage(Component.translatable(MiscTranslationKeys.NO_GROOVES));
+            }
             return InteractionResult.PASS;
         }
     }
@@ -58,6 +63,12 @@ public class LockItem extends Item {
     public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity target, InteractionHand type) {
         if (type.asEquipmentSlot().equals(EquipmentSlot.OFFHAND)) {
             return super.interactLivingEntity(itemStack, player, target, type);
+        }
+        if (!target.is(LAKTags.EntityTags.LOCKABLE)) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.sendOverlayMessage(Component.translatable(MiscTranslationKeys.NOT_LOCKABLE));
+            }
+            return InteractionResult.PASS;
         }
         if (LockedDataAttachment.isLocked(target, null)) {
             return InteractionResult.PASS;
@@ -68,7 +79,15 @@ public class LockItem extends Item {
             itemStack.consume(1, player);
             return InteractionResult.SUCCESS;
         } else {
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.sendOverlayMessage(Component.translatable(MiscTranslationKeys.NO_GROOVES));
+            }
             return InteractionResult.PASS;
         }
+    }
+
+    @SuppressWarnings("unused")
+    public void getTooltip(ItemStack stack, TooltipContext context, TooltipFlag flag, List<Component> lines) {
+        lines.add(Component.translatable(MiscTranslationKeys.TOOLTIP_LOCK_1));
     }
 }

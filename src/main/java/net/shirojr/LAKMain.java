@@ -21,7 +21,7 @@ public class LAKMain implements ModInitializer {
 		LAKCreativeTabs.initialize();
 		LAKEntityTypes.initialize();
 		LAKDataAttachments.initialize();
-		LAKCommonEvents.initialize();
+		LAKEventsCommon.initialize();
 		LAKTags.initialize();
 		LAKGamerules.initialize();
 		LAKPayloads.initialize();

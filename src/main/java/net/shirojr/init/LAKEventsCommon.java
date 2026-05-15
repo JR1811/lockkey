@@ -10,7 +10,7 @@ import net.shirojr.event.LAKAttackingEvents;
 import net.shirojr.event.LAKBlockEvents;
 import net.shirojr.event.LAKEntityEvents;
 
-public interface LAKCommonEvents {
+public interface LAKEventsCommon {
     LAKBlockEvents SHARED_BLOCK_EVENTS = new LAKBlockEvents();
     LAKEntityEvents SHARED_ENTITY_EVENTS = new LAKEntityEvents();
     LAKAttackingEvents ATTACKING_EVENTS = new LAKAttackingEvents();

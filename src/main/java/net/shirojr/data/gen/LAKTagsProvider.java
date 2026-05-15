@@ -4,8 +4,11 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalEntityTypeTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
 import net.shirojr.init.LAKTags;
 
@@ -39,7 +42,32 @@ public class LAKTagsProvider {
         }
     }
 
+    private static class EntityTagProvider extends FabricTagsProvider.EntityTypeTagsProvider {
+        public EntityTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookupFuture) {
+            super(output, registryLookupFuture);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.Provider registries) {
+            valueLookupBuilder(LAKTags.EntityTags.LOCKABLE)
+                    .add(EntityType.PIG, EntityType.SHEEP, EntityType.HORSE, EntityType.WOLF, EntityType.CAT,
+                            EntityType.ARMOR_STAND, EntityType.ARMADILLO)
+                    .addOptionalTag(EntityTypeTags.BOAT)
+                    .addOptionalTag(ConventionalEntityTypeTags.MINECARTS)
+                    .addOptionalTag(ConventionalEntityTypeTags.ITEM_FRAMES)
+                    .addOptionalTag(EntityTypeTags.ZOMBIES)
+                    .addOptionalTag(EntityTypeTags.SKELETONS)
+                    .addOptionalTag(EntityTypeTags.ARTHROPOD)
+                    .addOptionalTag(EntityTypeTags.AQUATIC)
+                    .addOptionalTag(EntityTypeTags.CAN_EQUIP_SADDLE)
+                    .addOptionalTag(EntityTypeTags.CAN_EQUIP_HARNESS)
+                    .addOptionalTag(EntityTypeTags.CAN_WEAR_HORSE_ARMOR)
+                    .addOptionalTag(EntityTypeTags.CAN_WEAR_NAUTILUS_ARMOR);
+        }
+    }
+
     public static void addProviders(FabricDataGenerator.Pack pack) {
         pack.addProvider(BlockTagProvider::new);
+        pack.addProvider(EntityTagProvider::new);
     }
 }

@@ -1,0 +1,55 @@
+{
+  "values": [
+    "minecraft:pig",
+    "minecraft:sheep",
+    "minecraft:horse",
+    "minecraft:wolf",
+    "minecraft:cat",
+    "minecraft:armor_stand",
+    "minecraft:armadillo",
+    {
+      "id": "#minecraft:boat",
+      "required": false
+    },
+    {
+      "id": "#c:minecarts",
+      "required": false
+    },
+    {
+      "id": "#c:item_frames",
+      "required": false
+    },
+    {
+      "id": "#minecraft:zombies",
+      "required": false
+    },
+    {
+      "id": "#minecraft:skeletons",
+      "required": false
+    },
+    {
+      "id": "#minecraft:arthropod",
+      "required": false
+    },
+    {
+      "id": "#minecraft:aquatic",
+      "required": false
+    },
+    {
+      "id": "#minecraft:can_equip_saddle",
+      "required": false
+    },
+    {
+      "id": "#minecraft:can_equip_harness",
+      "required": false
+    },
+    {
+      "id": "#minecraft:can_wear_horse_armor",
+      "required": false
+    },
+    {
+      "id": "#minecraft:can_wear_nautilus_armor",
+      "required": false
+    }
+  ]
+}

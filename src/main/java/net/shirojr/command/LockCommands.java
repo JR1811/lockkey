@@ -31,6 +31,7 @@ import java.util.UUID;
 
 public class LockCommands implements CommandRegistrationCallback {
     public static final SimpleCommandExceptionType ERROR_NO_LOCK = new SimpleCommandExceptionType(Component.literal("No lock found"));
+    public static final SimpleCommandExceptionType ERROR_NO_GROOVES = new SimpleCommandExceptionType(Component.literal("No grooves found"));
     public static final SimpleCommandExceptionType ERROR_NOT_APPLICABLE = new SimpleCommandExceptionType(Component.literal("Data not applicable"));
 
     @Override
@@ -66,13 +67,32 @@ public class LockCommands implements CommandRegistrationCallback {
                         .then(Commands.literal("set")
                                 .then(Commands.argument("uuid", UuidArgument.uuid())
                                         .executes(context -> LockCommands.setItemGrooves(context, UuidArgument.getUuid(context, "uuid"), null))
-                                        .then(Commands.argument("target", EntityArgument.player())
-                                                .executes(context -> LockCommands.setItemGrooves(context, UuidArgument.getUuid(context, "uuid"), EntityArgument.getPlayer(context, "target")))
+                                        .then(Commands.argument("target", EntityArgument.entity())
+                                                .executes(context -> LockCommands.setItemGrooves(context, UuidArgument.getUuid(context, "uuid"), EntityArgument.getEntity(context, "target")))
                                         )
+                                )
+                        )
+                        .then(Commands.literal("remove")
+                                .executes(context -> LockCommands.removeItemGrooves(context, null))
+                                .then(Commands.argument("target", EntityArgument.entity())
+                                        .executes(context -> LockCommands.removeItemGrooves(context, EntityArgument.getEntity(context, "target")))
                                 )
                         )
                 )
         );
+    }
+
+    private static int removeItemGrooves(CommandContext<CommandSourceStack> context, @Nullable Entity target) throws CommandSyntaxException {
+        if (target == null) target = context.getSource().getPlayer();
+        if (!(target instanceof LivingEntity livingEntity)) {
+            throw ERROR_NOT_APPLICABLE.create();
+        }
+        if (GroovesComponent.isBlank(livingEntity.getActiveItem())) {
+            throw ERROR_NO_GROOVES.create();
+        }
+        GroovesComponent.setGrooves(livingEntity.getActiveItem(), null);
+        context.getSource().sendSuccess(() -> Component.literal("Removed Grooves data"), true);
+        return Command.SINGLE_SUCCESS;
     }
 
     private static int setItemGrooves(CommandContext<CommandSourceStack> context, UUID uuid, @Nullable Entity target) throws CommandSyntaxException {

@@ -32,8 +32,13 @@ public class LAKTranslationGenerator extends FabricLanguageProvider {
 
         builder.add(MiscTranslationKeys.ATTACK_LOCKED, "This is Locked!");
         builder.add(MiscTranslationKeys.INTERACT_LOCKED, "This is Locked!");
-        builder.add(MiscTranslationKeys.NOT_LOCKABLE, "Block not Lockable");
+        builder.add(MiscTranslationKeys.NOT_LOCKABLE, "Target not Lockable");
+        builder.add(MiscTranslationKeys.NO_GROOVES, "No Grooves set for locking");
         builder.add(GroovesComponent.TOOLTIP_TRANSLATION_KEY, "Grooves: ");
+
+        builder.add(MiscTranslationKeys.TOOLTIP_LOCK_1, "§f[Sneak]§r §7+§r §f[Interact]§r §7on blocks and entities to add lock§r");
+        builder.add(MiscTranslationKeys.TOOLTIP_KEY_1, "§f[Sneak]§r §7+§r §f[Interact]§r §7with matching grooves on§r");
+        builder.add(MiscTranslationKeys.TOOLTIP_KEY_2, "§7locked blocks and entities to remove lock§r");
 
         try {
             Path existingFilePath = packOutput.getModContainer().findPath("assets/%s/lang/en_us.manual.json".formatted(LAKMain.MOD_ID)).orElseThrow();
