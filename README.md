@@ -12,28 +12,17 @@ Lock and Key is a Fabric mod that adds simple security mechanics for blocks and 
 
 # Requirements
 
-- Minecraft (26.1.1)
 - Fabric Loader
 - Fabric API
 
-# Installation
-
-1. Install Fabric Loader for your Minecraft version
-2. Download and install Fabric API
-3. Place the mod .jar file into your mods folder
-4. Launch the game using the Fabric profile
-
 # Usage
 
-Craft locks and keys to secure blocks and entities.
-Place locker blocks and choose a variant depending on the intended function.
-
-This mod is still work in progress! Currently, you can only set lock and key grooves by using the `/lock` commands!
+Craft locks and keys to secure blocks and entities. This mod is still work in progress! Currently, you can only set 
+lock and key grooves by using the `/lock` commands!
 
 # Planned Features and Content
 
-- Better locking of multi-blocks, like doors and double chests (potentially providing an easy-to-use Mod API for others to use)
-- Better Item Textures (yeah they are only Programmer art...)
+- Better locking of multi-blocks, like doors and double chests (potentially providing an easy-to-use Mod API for other mods / datapacks)
 
 Anything else? If you have any ideas, please let me know and open an [Issue on GitHub](https://github.com/JR1811/lockkey/issues)
 
