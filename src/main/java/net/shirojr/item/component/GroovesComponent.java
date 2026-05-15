@@ -15,6 +15,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipProvider;
 import net.shirojr.LAKMain;
 import net.shirojr.init.LAKItemDataComponents;
+import net.shirojr.item.KeyItem;
+import net.shirojr.item.LockItem;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
@@ -33,6 +35,16 @@ public record GroovesComponent(UUID grooves) implements TooltipProvider, Tooltip
 
     public static boolean isBlank(ItemStack stack) {
         return from(stack).isEmpty();
+    }
+
+    public boolean isFittingKey(ItemStack stack) {
+        if (isBlank(stack) || !(stack.getItem() instanceof KeyItem)) return false;
+        return from(stack).map(component -> component.grooves.equals(grooves)).orElse(false);
+    }
+
+    public boolean isFittingLock(ItemStack stack) {
+        if (isBlank(stack) || !(stack.getItem() instanceof LockItem)) return false;
+        return from(stack).map(component -> component.grooves.equals(grooves)).orElse(false);
     }
 
     public static void setGrooves(ItemStack stack, @Nullable UUID uuid) {

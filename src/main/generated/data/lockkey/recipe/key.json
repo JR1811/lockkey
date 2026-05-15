@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "locking",
+  "key": {
+    "i": "minecraft:iron_ingot",
+    "n": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    "  n",
+    " n ",
+    "i  "
+  ],
+  "result": {
+    "id": "lockkey:key"
+  }
+}

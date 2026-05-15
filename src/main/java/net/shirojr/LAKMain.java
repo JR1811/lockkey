@@ -23,6 +23,9 @@ public class LAKMain implements ModInitializer {
 		LAKDataAttachments.initialize();
 		LAKCommonEvents.initialize();
 		LAKTags.initialize();
+		LAKGamerules.initialize();
+		LAKPayloads.initialize();
+
 
 		LOGGER.info("We lock in!");
 	}

@@ -1,6 +1,8 @@
 package net.shirojr.item;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -10,7 +12,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.shirojr.data.attachment.LockedDataAttachment;
+import net.shirojr.init.LAKTags;
+import net.shirojr.network.NBVNetworkingDataHolder;
+import net.shirojr.util.constants.MiscTranslationKeys;
 
 import java.util.Optional;
 import java.util.Set;
@@ -27,13 +33,21 @@ public class LockItem extends Item {
         }
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
+        BlockState blockState = level.getBlockState(pos);
+        if (!NBVNetworkingDataHolder.getInstance().areAllBlocksLockable(level) && !blockState.is(LAKTags.BlockTags.LOCKABLE)) {
+            if (context.getPlayer() instanceof ServerPlayer serverPlayer) {
+                serverPlayer.sendOverlayMessage(Component.translatable(MiscTranslationKeys.NOT_LOCKABLE));
+            }
+            return InteractionResult.PASS;
+        }
         if (LockedDataAttachment.isLocked(level, pos, null)) {
             return InteractionResult.PASS;
         }
-        Optional<LockedDataAttachment> itemLockData = LockedDataAttachment.from(context.getItemInHand());
+        ItemStack itemInHand = context.getItemInHand();
+        Optional<LockedDataAttachment> itemLockData = LockedDataAttachment.from(itemInHand.copyWithCount(1));
         if (itemLockData.isPresent()) {
             LockedDataAttachment.setBlockLock(level, Set.of(pos), itemLockData.get());
-            context.getItemInHand().consume(1, context.getPlayer());
+            itemInHand.consume(1, context.getPlayer());
             return InteractionResult.SUCCESS;
         } else {
             return InteractionResult.PASS;
@@ -48,7 +62,7 @@ public class LockItem extends Item {
         if (LockedDataAttachment.isLocked(target, null)) {
             return InteractionResult.PASS;
         }
-        Optional<LockedDataAttachment> itemLockData = LockedDataAttachment.from(itemStack);
+        Optional<LockedDataAttachment> itemLockData = LockedDataAttachment.from(itemStack.copyWithCount(1));
         if (itemLockData.isPresent()) {
             LockedDataAttachment.setEntityLock(target, itemLockData.get());
             itemStack.consume(1, player);

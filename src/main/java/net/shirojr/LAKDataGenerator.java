@@ -3,6 +3,7 @@ package net.shirojr;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.shirojr.data.gen.LAKModelProvider;
+import net.shirojr.data.gen.LAKRecipeProvider;
 import net.shirojr.data.gen.LAKTagsProvider;
 import net.shirojr.data.gen.LAKTranslationGenerator;
 
@@ -13,6 +14,7 @@ public class LAKDataGenerator implements DataGeneratorEntrypoint {
 
 		pack.addProvider(LAKTranslationGenerator::new);
 		pack.addProvider(LAKModelProvider::new);
+		pack.addProvider(LAKRecipeProvider::new);
 		LAKTagsProvider.addProviders(pack);
 	}
 }

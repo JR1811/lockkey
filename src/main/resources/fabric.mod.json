@@ -9,15 +9,18 @@
 		"ART - ShiroJR"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/JR1811",
+		"sources": "https://github.com/JR1811/lockkey"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/lockkey/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
 			"net.shirojr.LAKMain"
+		],
+		"client": [
+			"net.shirojr.LAKClient"
 		],
 		"fabric-datagen": [
 			"net.shirojr.LAKDataGenerator"

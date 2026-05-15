@@ -3,9 +3,10 @@ package net.shirojr.data.gen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagEntry;
+import net.minecraft.world.level.block.Blocks;
 import net.shirojr.init.LAKBlocks;
 import net.shirojr.init.LAKTags;
 
@@ -19,10 +20,25 @@ public class LAKTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider registries) {
-            getOrCreateRawBuilder(LAKTags.BlockTags.SEAT_HOLDER).add(
-                    TagEntry.element(LAKBlocks.LOCKER_EMPTY.identifier())
-            );
-            LAKBlocks.LOCKERS.forEach(holder -> getOrCreateRawBuilder(BlockTags.CLIMBABLE).add(TagEntry.element(holder.identifier())));
+            LAKBlocks.LOCKERS.forEach(holder -> valueLookupBuilder(BlockTags.CLIMBABLE).add(holder.entry()));
+            valueLookupBuilder(LAKTags.BlockTags.SEAT_HOLDER).add(LAKBlocks.LOCKER_EMPTY.entry());
+            valueLookupBuilder(LAKTags.BlockTags.LOCKABLE)
+                    .add(Blocks.LEVER, Blocks.ENCHANTING_TABLE, Blocks.JUKEBOX, Blocks.NOTE_BLOCK, Blocks.RESPAWN_ANCHOR,
+                            Blocks.VAULT, Blocks.COPPER_BULB)
+                    .addOptionalTag(ConventionalBlockTags.CHESTS)
+                    .addOptionalTag(ConventionalBlockTags.BARRELS)
+                    .addOptionalTag(BlockTags.BUTTONS)
+                    .addOptionalTag(BlockTags.PRESSURE_PLATES)
+                    .addOptionalTag(ConventionalBlockTags.PLAYER_WORKSTATIONS_FURNACES)
+                    .addOptionalTag(ConventionalBlockTags.PLAYER_WORKSTATIONS_CRAFTING_TABLES)
+                    .addOptionalTag(BlockTags.ANVIL)
+                    .addOptionalTag(BlockTags.CAULDRONS)
+                    .addOptionalTag(BlockTags.SHULKER_BOXES)
+                    .addOptionalTag(BlockTags.ALL_SIGNS)
+                    .addOptionalTag(ConventionalBlockTags.BOOKSHELVES)
+                    .addOptionalTag(BlockTags.WOODEN_SHELVES)
+                    .addOptionalTag(BlockTags.BEEHIVES)
+                    .addOptionalTag(BlockTags.BEDS);
         }
     }
 

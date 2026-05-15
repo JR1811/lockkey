@@ -1,0 +1,67 @@
+{
+  "values": [
+    "minecraft:lever",
+    "minecraft:enchanting_table",
+    "minecraft:jukebox",
+    "minecraft:note_block",
+    "minecraft:respawn_anchor",
+    "minecraft:vault",
+    "minecraft:copper_bulb",
+    {
+      "id": "#c:chests",
+      "required": false
+    },
+    {
+      "id": "#c:barrels",
+      "required": false
+    },
+    {
+      "id": "#minecraft:buttons",
+      "required": false
+    },
+    {
+      "id": "#minecraft:pressure_plates",
+      "required": false
+    },
+    {
+      "id": "#c:player_workstations/furnaces",
+      "required": false
+    },
+    {
+      "id": "#c:player_workstations/crafting_tables",
+      "required": false
+    },
+    {
+      "id": "#minecraft:anvil",
+      "required": false
+    },
+    {
+      "id": "#minecraft:cauldrons",
+      "required": false
+    },
+    {
+      "id": "#minecraft:shulker_boxes",
+      "required": false
+    },
+    {
+      "id": "#minecraft:all_signs",
+      "required": false
+    },
+    {
+      "id": "#c:bookshelves",
+      "required": false
+    },
+    {
+      "id": "#minecraft:wooden_shelves",
+      "required": false
+    },
+    {
+      "id": "#minecraft:beehives",
+      "required": false
+    },
+    {
+      "id": "#minecraft:beds",
+      "required": false
+    }
+  ]
+}

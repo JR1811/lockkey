@@ -15,6 +15,7 @@ public interface LAKTags {
 
     interface BlockTags {
         TagKey<Block> SEAT_HOLDER = create("seat_holder");
+        TagKey<Block> LOCKABLE = create("lockable");
 
         private static TagKey<Block> create(final String name) {
             Identifier id = LAKMain.getId(name);

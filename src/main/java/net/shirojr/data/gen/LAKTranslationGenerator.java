@@ -5,10 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.shirojr.LAKMain;
-import net.shirojr.init.LAKBlocks;
-import net.shirojr.init.LAKEntityTypes;
-import net.shirojr.init.LAKItems;
-import net.shirojr.init.LAKTags;
+import net.shirojr.init.*;
 import net.shirojr.item.component.GroovesComponent;
 import net.shirojr.util.constants.MiscTranslationKeys;
 
@@ -26,14 +23,16 @@ public class LAKTranslationGenerator extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(HolderLookup.Provider provider, TranslationBuilder builder) {
-        builder.add(MiscTranslationKeys.ITEM_GROUP_KEY, "Lock and Key");
+        builder.add(MiscTranslationKeys.ITEM_GROUP, "Lock and Key");
         LAKItems.ALL.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), true)));
         LAKBlocks.ALL.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), true)));
         LAKEntityTypes.ALL.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), true)));
         LAKTags.ALL.forEach(holder -> builder.add(holder.entry(), getReadable(holder.identifier(), false)));
+        LAKGamerules.ALL.forEach(holder -> builder.add(holder.identifier(), getReadable(holder.identifier(), false)));
 
-        builder.add(MiscTranslationKeys.ATTACK_LOCKED_KEY, "This is Locked!");
-        builder.add(MiscTranslationKeys.INTERACT_LOCKED_KEY, "This is Locked!");
+        builder.add(MiscTranslationKeys.ATTACK_LOCKED, "This is Locked!");
+        builder.add(MiscTranslationKeys.INTERACT_LOCKED, "This is Locked!");
+        builder.add(MiscTranslationKeys.NOT_LOCKABLE, "Block not Lockable");
         builder.add(GroovesComponent.TOOLTIP_TRANSLATION_KEY, "Grooves: ");
 
         try {
