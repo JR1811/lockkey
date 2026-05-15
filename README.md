@@ -8,6 +8,7 @@ Lock and Key is a Fabric mod that adds simple security mechanics for blocks and 
   - Add locks (with grooves data) to blocks and entities
   - use the `lockkey:all_blocks_lockable` Gamerule to enable every block being lockable, not just the ones in the `lcokkey:lockable` block tag
   - use keys with matching groove data to enable interaction / attacking / breaking with that block or entity
+  - for now (WIP) use the `/lock` commands to manage anything lock related, like setting grooves and managing lock states of entities and blocks manually
 
 # Requirements
 
