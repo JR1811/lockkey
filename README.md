@@ -37,6 +37,11 @@ This mod is still work in progress! Currently, you can only set lock and key gro
 
 Anything else? If you have any ideas, please let me know and open an [Issue on GitHub](https://github.com/JR1811/lockkey/issues)
 
+# Credits
+
+The textures of the lock and the key items have been cleaned up by [Aethyus](https://aethyus.carrd.co/).
+Check them out!
+
 <div style="text-align: center;">
   <a href="https://github.com/JR1811/Boatism/issues">
     <img src="https://github.com/fabricated-atelier/.github/blob/main/assets/badges/old/work_in_progress.png?raw=true" alt="Work in Progress" width="200">
