@@ -7,17 +7,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.shirojr.LAKMain;
-import net.shirojr.blockentity.StorageLockerBlockEntity;
 
 public interface LAKBlockEntityTypes {
-    BlockEntityType<StorageLockerBlockEntity> LOCKER = register(
-            "locker",
-            StorageLockerBlockEntity::new,
-            LAKBlocks.LOCKER_EMPTY.entry(), LAKBlocks.LOCKER_STORAGE.entry(), LAKBlocks.LOCKER_TRAP.entry(), LAKBlocks.LOCKER_ALARM.entry()
-    );
 
 
-    @SuppressWarnings("SameParameterValue")
+    @SuppressWarnings({"SameParameterValue", "unused"})
     private static <T extends BlockEntity> BlockEntityType<T> register(String name, FabricBlockEntityTypeBuilder.Factory<? extends T> entry, Block... blocks) {
         return Registry.register(
                 BuiltInRegistries.BLOCK_ENTITY_TYPE,

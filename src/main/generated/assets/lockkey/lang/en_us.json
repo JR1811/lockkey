@@ -1,21 +1,11 @@
 {
-  "block.lockkey.locker_alarm": "Alarm Locker",
-  "block.lockkey.locker_empty": "Empty Locker",
-  "block.lockkey.locker_storage": "Storage Locker",
-  "block.lockkey.locker_trap": "Trap Locker",
-  "entity.lockkey.seat": "Seat",
   "info.lockkey.error.not_lockable": "Block not Lockable",
   "info.lockkey.locked.attack": "This is Locked!",
   "info.lockkey.locked.interact": "This is Locked!",
   "item.lockkey.key": "Key",
   "item.lockkey.lock": "Lock",
-  "item.lockkey.locker_alarm": "Alarm Locker",
-  "item.lockkey.locker_empty": "Empty Locker",
-  "item.lockkey.locker_storage": "Storage Locker",
-  "item.lockkey.locker_trap": "Trap Locker",
   "itemGroup.lockkey": "Lock and Key",
   "lockkey.all_blocks_lockable": "All Blocks Lockable",
   "tag.block.lockkey.lockable": "Lockable",
-  "tag.block.lockkey.seat_holder": "Seat Holder",
   "tooltip.lockkey.grooves": "Grooves: "
 }

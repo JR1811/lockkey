@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
-import net.shirojr.init.LAKBlocks;
 import net.shirojr.init.LAKTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -20,8 +19,6 @@ public class LAKTagsProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider registries) {
-            LAKBlocks.LOCKERS.forEach(holder -> valueLookupBuilder(BlockTags.CLIMBABLE).add(holder.entry()));
-            valueLookupBuilder(LAKTags.BlockTags.SEAT_HOLDER).add(LAKBlocks.LOCKER_EMPTY.entry());
             valueLookupBuilder(LAKTags.BlockTags.LOCKABLE)
                     .add(Blocks.LEVER, Blocks.ENCHANTING_TABLE, Blocks.JUKEBOX, Blocks.NOTE_BLOCK, Blocks.RESPAWN_ANCHOR,
                             Blocks.VAULT, Blocks.COPPER_BULB)
