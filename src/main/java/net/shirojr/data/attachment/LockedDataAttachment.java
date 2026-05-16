@@ -79,37 +79,29 @@ public record LockedDataAttachment(UUID grooves, @NotNull Optional<ItemStackTemp
         return !attached.grooves().equals(matchingGrooves);
     }
 
-    public static HashSet<ItemStack> setBlockLockWithItem(Level level, Collection<BlockPos> positions, @NotNull ItemStack lockStack) {
-        return setBlockLock(level, positions, LockedDataAttachment.from(lockStack).orElse(null));
-    }
-
-    public static HashSet<ItemStack> setBlockLock(Level level, Collection<BlockPos> positions, @Nullable LockedDataAttachment attachment) {
+    public static HashSet<ItemStack> setBlockLock(ServerLevel level, BlockPos pos, @Nullable LockedDataAttachment attachment) {
         HashSet<ItemStack> returnedLockStacks = new HashSet<>();
-        HashMap<BlockPos, ChunkAccess> posToChunkMap = new HashMap<>();
-        for (BlockPos entry : positions) {
-            posToChunkMap.put(entry, level.getChunk(entry));
-        }
-        for (var entry : posToChunkMap.entrySet()) {
-            ChunkAccess chunk = entry.getValue();
-            if (attachment == null) {
-                HashMap<BlockPos, LockedDataAttachment> attached = get(chunk);
-                if (attached != null) {
-                    attached.remove(entry.getKey()).lockStack().ifPresent(itemStackTemplate -> returnedLockStacks.add(itemStackTemplate.create()));
+        ChunkAccess chunk = level.getChunk(pos);
+        if (attachment == null) {
+            HashMap<BlockPos, LockedDataAttachment> chunkLocksData = get(chunk);
+            if (chunkLocksData != null) {
+                HashMap<BlockPos, LockedDataAttachment> newState = new HashMap<>(chunkLocksData);
+                LockedDataAttachment removedLock = newState.remove(pos);
+                if (removedLock != null) {
+                    removedLock.lockStack().ifPresent(itemStackTemplate -> returnedLockStacks.add(itemStackTemplate.create()));
                 }
-            } else {
-                HashMap<BlockPos, LockedDataAttachment> newState = getOrCreate(chunk);
-                newState.put(entry.getKey(), attachment);
                 chunk.setAttached(LAKDataAttachments.LOCKED_POSITIONS, newState);
-                if (level instanceof ServerLevel serverLevel) {
-                    serverLevel.playSound(null, entry.getKey(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS);
-                }
+            }
+        } else {
+            HashMap<BlockPos, LockedDataAttachment> newState = new HashMap<>(getOrCreate(chunk));
+            newState.put(pos, attachment);
+            chunk.setAttached(LAKDataAttachments.LOCKED_POSITIONS, newState);
+            if (level instanceof ServerLevel serverLevel) {
+                serverLevel.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS);
             }
         }
-        return returnedLockStacks;
-    }
 
-    public static Optional<ItemStack> setEntityLockWithItem(Entity entity, @NotNull ItemStack lockStack) {
-        return setEntityLock(entity, from(lockStack).orElse(null));
+        return returnedLockStacks;
     }
 
     public static Optional<ItemStack> setEntityLock(Entity entity, @Nullable LockedDataAttachment attachment) {

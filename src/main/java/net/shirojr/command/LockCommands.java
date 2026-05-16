@@ -26,7 +26,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 public class LockCommands implements CommandRegistrationCallback {
@@ -100,7 +99,11 @@ public class LockCommands implements CommandRegistrationCallback {
         if (!(target instanceof LivingEntity livingEntity)) {
             throw ERROR_NOT_APPLICABLE.create();
         }
-        GroovesComponent.setGrooves(livingEntity.getActiveItem(), uuid);
+        ItemStack activeItem = livingEntity.getActiveItem();
+        if (activeItem.isEmpty()) {
+            throw ERROR_NOT_APPLICABLE.create();
+        }
+        GroovesComponent.setGrooves(activeItem, uuid);
         context.getSource().sendSuccess(() -> Component.literal("Applied main hand ItemStack groove: " + uuid), true);
         return Command.SINGLE_SUCCESS;
     }
@@ -111,7 +114,7 @@ public class LockCommands implements CommandRegistrationCallback {
         if (!LockedDataAttachment.isLocked(level, pos, null)) {
             throw ERROR_NO_LOCK.create();
         }
-        HashSet<ItemStack> removedLocks = LockedDataAttachment.setBlockLock(level, Set.of(pos), null);
+        HashSet<ItemStack> removedLocks = LockedDataAttachment.setBlockLock(level, pos, null);
         if (level.getGameRules().get(GameRules.BLOCK_DROPS)) {
             LockedDataAttachment.drop(level, pos.above().getBottomCenter(), removedLocks, SoundSource.BLOCKS);
         }
@@ -122,7 +125,7 @@ public class LockCommands implements CommandRegistrationCallback {
     private static int setBlockLock(CommandContext<CommandSourceStack> context, UUID grooves) {
         BlockPos pos = BlockPosArgument.getBlockPos(context, "target");
         ServerLevel level = context.getSource().getLevel();
-        LockedDataAttachment.setBlockLock(level, Set.of(pos), new LockedDataAttachment(grooves, Optional.empty()));
+        LockedDataAttachment.setBlockLock(level, pos, new LockedDataAttachment(grooves, Optional.empty()));
         context.getSource().sendSuccess(() -> Component.literal("Applied Lock to ").append(pos.toShortString()), true);
         return Command.SINGLE_SUCCESS;
     }

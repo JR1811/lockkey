@@ -2,6 +2,7 @@ package net.shirojr.item;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -21,7 +22,6 @@ import net.shirojr.util.constants.MiscTranslationKeys;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class LockItem extends Item {
     public LockItem(Properties properties) {
@@ -48,8 +48,10 @@ public class LockItem extends Item {
         ItemStack itemInHand = context.getItemInHand();
         Optional<LockedDataAttachment> itemLockData = LockedDataAttachment.from(itemInHand.copyWithCount(1));
         if (itemLockData.isPresent()) {
-            LockedDataAttachment.setBlockLock(level, Set.of(pos), itemLockData.get());
-            itemInHand.consume(1, context.getPlayer());
+            if (level instanceof ServerLevel serverLevel) {
+                LockedDataAttachment.setBlockLock(serverLevel, pos, itemLockData.get());
+                itemInHand.consume(1, context.getPlayer());
+            }
             return InteractionResult.SUCCESS;
         } else {
             if (context.getPlayer() instanceof ServerPlayer serverPlayer) {

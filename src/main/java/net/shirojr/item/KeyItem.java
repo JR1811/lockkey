@@ -41,8 +41,8 @@ public class KeyItem extends Item {
         if (!LockedDataAttachment.isLocked(level, pos, null)) {
             return super.useOn(context);
         }
-        HashSet<ItemStack> removedLocks = LockedDataAttachment.setBlockLock(level, Set.of(pos), null);
         if (level instanceof ServerLevel serverLevel) {
+            HashSet<ItemStack> removedLocks = LockedDataAttachment.setBlockLock(serverLevel, pos, null);
             LockedDataAttachment.drop(serverLevel, pos.above().getBottomCenter(), removedLocks, SoundSource.BLOCKS);
         }
         return InteractionResult.SUCCESS;

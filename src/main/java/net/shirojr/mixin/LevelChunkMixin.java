@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashSet;
-import java.util.Set;
 
 @Mixin(LevelChunk.class)
 public abstract class LevelChunkMixin {
@@ -35,7 +34,7 @@ public abstract class LevelChunkMixin {
         int localZ = pos.getZ() & 15;
         BlockState oldState = section.getBlockState(localX, localY, localZ);
         if (!oldState.getBlock().equals(state.getBlock())) {
-            HashSet<ItemStack> removedLocks = LockedDataAttachment.setBlockLock(serverLevel, Set.of(pos), null);
+            HashSet<ItemStack> removedLocks = LockedDataAttachment.setBlockLock(serverLevel, pos, null);
             for (ItemStack stack : removedLocks) {
                 LockedDataAttachment.drop(serverLevel, pos.above().getBottomCenter(), stack, SoundSource.BLOCKS);
             }
