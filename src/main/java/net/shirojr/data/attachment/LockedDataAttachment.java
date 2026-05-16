@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -18,21 +17,22 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.phys.Vec3;
 import net.shirojr.init.LAKDataAttachments;
 import net.shirojr.item.component.GroovesComponent;
+import net.shirojr.util.SafeItemStackData;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
-public record LockedDataAttachment(UUID grooves, @NotNull Optional<ItemStack> lockStack) {
+public record LockedDataAttachment(UUID grooves, @NotNull Optional<SafeItemStackData> lockStack) {
     public static final Codec<LockedDataAttachment> CODEC = RecordCodecBuilder.create(builder -> builder.group(
             UUIDUtil.CODEC.fieldOf("grooves").forGetter(LockedDataAttachment::grooves),
-            ItemStack.CODEC.optionalFieldOf("lockStack").forGetter(LockedDataAttachment::lockStack)
+            SafeItemStackData.CODEC.optionalFieldOf("lockStack").forGetter(lockedDataAttachment -> lockedDataAttachment.lockStack)
     ).apply(builder, LockedDataAttachment::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, LockedDataAttachment> STREAM_CODEC = StreamCodec.composite(
             UUIDUtil.STREAM_CODEC, LockedDataAttachment::grooves,
-            ByteBufCodecs.optional(ItemStack.STREAM_CODEC), LockedDataAttachment::lockStack,
-            LockedDataAttachment::new
+            // ByteBufCodecs.optional(ItemStack.STREAM_CODEC), LockedDataAttachment::lockStack,             <- unnecessary information for client
+            uuid -> new LockedDataAttachment(uuid, Optional.empty())
     );
 
     @Nullable
@@ -59,7 +59,7 @@ public record LockedDataAttachment(UUID grooves, @NotNull Optional<ItemStack> lo
     public static Optional<LockedDataAttachment> from(@Nullable ItemStack stack) {
         if (stack == null) return Optional.empty();
         return GroovesComponent.from(stack).map(component ->
-                new LockedDataAttachment(component.grooves(), Optional.of(stack))
+                new LockedDataAttachment(component.grooves(), Optional.of(new SafeItemStackData(stack)))
         );
     }
 
@@ -93,7 +93,7 @@ public record LockedDataAttachment(UUID grooves, @NotNull Optional<ItemStack> lo
             if (attachment == null) {
                 HashMap<BlockPos, LockedDataAttachment> attached = get(chunk);
                 if (attached != null) {
-                    attached.remove(entry.getKey()).lockStack().ifPresent(returnedLockStacks::add);
+                    attached.remove(entry.getKey()).lockStack().ifPresent(safeItemStackData -> returnedLockStacks.add(safeItemStackData.stack()));
                 }
             } else {
                 HashMap<BlockPos, LockedDataAttachment> newState = getOrCreate(chunk);
@@ -113,12 +113,12 @@ public record LockedDataAttachment(UUID grooves, @NotNull Optional<ItemStack> lo
 
     public static Optional<ItemStack> setEntityLock(Entity entity, @Nullable LockedDataAttachment attachment) {
         if (attachment == null) {
-            return Optional.ofNullable(entity.removeAttached(LAKDataAttachments.LOCKED)).flatMap(LockedDataAttachment::lockStack);
+            return Optional.ofNullable(entity.removeAttached(LAKDataAttachments.LOCKED)).flatMap(lockedDataAttachment -> lockedDataAttachment.lockStack.map(SafeItemStackData::stack));
         }
         Optional<ItemStack> oldLock = Optional.empty();
         LockedDataAttachment oldAttached = get(entity);
         if (oldAttached != null) {
-            oldLock = oldAttached.lockStack();
+            oldLock = oldAttached.lockStack().map(SafeItemStackData::stack);
         }
         entity.setAttached(LAKDataAttachments.LOCKED, attachment);
         if (entity.level() instanceof ServerLevel serverLevel) {
