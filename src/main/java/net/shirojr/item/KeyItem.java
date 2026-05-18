@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.shirojr.data.attachment.LockedDataAttachment;
 import net.shirojr.util.constants.MiscTranslationKeys;
@@ -34,6 +35,10 @@ public class KeyItem extends Item {
         }
         Player player = context.getPlayer();
         if (player == null || !player.isCrouching()) {
+            return super.useOn(context);
+        }
+        GameType gameMode = player.gameMode();
+        if (gameMode == null || gameMode.isBlockPlacingRestricted()) {
             return super.useOn(context);
         }
         Level level = context.getLevel();
