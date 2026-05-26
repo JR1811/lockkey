@@ -61,6 +61,10 @@ public class KeyItem extends Item {
         if (!player.isCrouching()) {
             return super.interactLivingEntity(itemStack, player, target, type);
         }
+        GameType gameType = player.gameMode();
+        if (gameType == null || gameType.isBlockPlacingRestricted()) {
+            return super.interactLivingEntity(itemStack, player, target, type);
+        }
         if (!LockedDataAttachment.isLocked(target, null)) {
             return InteractionResult.PASS;
         }
