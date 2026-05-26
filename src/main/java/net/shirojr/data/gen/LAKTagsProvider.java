@@ -50,8 +50,8 @@ public class LAKTagsProvider {
         @Override
         protected void addTags(HolderLookup.Provider registries) {
             valueLookupBuilder(LAKTags.EntityTags.LOCKABLE)
-                    .add(EntityType.PIG, EntityType.SHEEP, EntityType.HORSE, EntityType.WOLF, EntityType.CAT,
-                            EntityType.ARMOR_STAND, EntityType.ARMADILLO)
+                    .add(EntityType.PIG, EntityType.SHEEP, EntityType.COW, EntityType.CHICKEN, EntityType.HORSE,
+                            EntityType.WOLF, EntityType.CAT, EntityType.ARMOR_STAND, EntityType.ARMADILLO)
                     .addOptionalTag(EntityTypeTags.BOAT)
                     .addOptionalTag(ConventionalEntityTypeTags.MINECARTS)
                     .addOptionalTag(ConventionalEntityTypeTags.ITEM_FRAMES)

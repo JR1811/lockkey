@@ -17,10 +17,16 @@ import java.util.List;
 public interface LAKGamerules {
     List<IdentifierHolder<? extends GameRule<?>>> ALL = new ArrayList<>();
 
-    IdentifierHolder<GameRule<Boolean>> ALL_LOCKABLE = register(
+    IdentifierHolder<GameRule<Boolean>> ALL_BLOCKS_LOCKABLE = register(
             "all_blocks_lockable",
             GameRuleBuilder.forBoolean(false).category(GameRuleCategory.MISC),
-            (value, server) -> NBVNetworkingDataHolder.getInstance().setAllLockable(value, PlayerLookup.all(server))
+            (value, server) -> NBVNetworkingDataHolder.getInstance().setAllBlocksLockable(value, PlayerLookup.all(server))
+    );
+
+    IdentifierHolder<GameRule<Boolean>> ALL_ENTITIES_LOCKABLE = register(
+            "all_entities_lockable",
+            GameRuleBuilder.forBoolean(false).category(GameRuleCategory.MISC),
+            (value, server) -> NBVNetworkingDataHolder.getInstance().setAllEntitiesLockable(value, PlayerLookup.all(server))
     );
 
     @SuppressWarnings("SameParameterValue")

@@ -7,6 +7,7 @@
   "item.lockkey.lock": "Lock",
   "itemGroup.lockkey": "Lock and Key",
   "lockkey.all_blocks_lockable": "All Blocks Lockable",
+  "lockkey.all_entities_lockable": "All Entities Lockable",
   "tag.block.lockkey.lockable": "Lockable",
   "tag.entity_type.lockkey.lockable": "Lockable",
   "tooltip.%s.key.line1": "§f[Sneak]§r §7+§r §f[Interact]§r §7with matching grooves on§r",

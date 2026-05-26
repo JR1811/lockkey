@@ -11,12 +11,12 @@ import net.shirojr.LAKMain;
 
 import java.util.Collection;
 
-public record SyncAllLockableS2CPayload(boolean allLockable) implements CustomPacketPayload {
-    public static final Identifier ALL_LOCKABLE_SYNC_ID = LAKMain.getId("all_lockable_sync");
-    public static final CustomPacketPayload.Type<SyncAllLockableS2CPayload> TYPE = new CustomPacketPayload.Type<>(ALL_LOCKABLE_SYNC_ID);
-    public static final StreamCodec<RegistryFriendlyByteBuf, SyncAllLockableS2CPayload> CODEC = StreamCodec.composite(
-            ByteBufCodecs.BOOL, SyncAllLockableS2CPayload::allLockable,
-            SyncAllLockableS2CPayload::new);
+public record SyncAllBlocksLockableS2CPayload(boolean allLockable) implements CustomPacketPayload {
+    public static final Identifier ALL_BLOCKS_LOCKABLE_SYNC_ID = LAKMain.getId("all_blocks_lockable_sync");
+    public static final CustomPacketPayload.Type<SyncAllBlocksLockableS2CPayload> TYPE = new CustomPacketPayload.Type<>(ALL_BLOCKS_LOCKABLE_SYNC_ID);
+    public static final StreamCodec<RegistryFriendlyByteBuf, SyncAllBlocksLockableS2CPayload> CODEC = StreamCodec.composite(
+            ByteBufCodecs.BOOL, SyncAllBlocksLockableS2CPayload::allLockable,
+            SyncAllBlocksLockableS2CPayload::new);
 
 
     @Override

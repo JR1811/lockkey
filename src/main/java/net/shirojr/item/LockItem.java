@@ -66,7 +66,7 @@ public class LockItem extends Item {
         if (type.asEquipmentSlot().equals(EquipmentSlot.OFFHAND)) {
             return super.interactLivingEntity(itemStack, player, target, type);
         }
-        if (!target.is(LAKTags.EntityTags.LOCKABLE)) {
+        if (!NBVNetworkingDataHolder.getInstance().areAllEntitiesLockable(player.level()) && !target.is(LAKTags.EntityTags.LOCKABLE)) {
             if (player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.sendOverlayMessage(Component.translatable(MiscTranslationKeys.NOT_LOCKABLE));
             }
