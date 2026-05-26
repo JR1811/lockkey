@@ -1,6 +1,6 @@
-# Lock and Key
+# Lockkey
 
-Lock and Key is a Fabric mod that adds simple security mechanics for blocks and entities.
+Lockkey is a Fabric mod that adds simple security mechanics for blocks and entities.
 
 ## Features
 

@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "lockkey",
 	"version": "${version}",
-	"name": "Lock And Key",
+	"name": "Lockkey",
 	"description": "A Fabric Mod which adds Locking mechanics to Blocks, Entities and other things",
 	"authors": [
 		"DEV - ShiroJR",
